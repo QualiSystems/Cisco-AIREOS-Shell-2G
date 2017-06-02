@@ -7,7 +7,6 @@ from cloudshell.devices.standards.networking.autoload_structure import GenericRe
 
 class AireOSAutoload(object):
     PORT_DESCRIPTION_FILTER = [r'[Vv]irtual', r'[Cc]hannel']
-    SUPPORTED_OS = [r'Controller']
 
     def __init__(self, snmp_handler, shell_name, shell_type, resource_name, logger):
         self.shell_name = shell_name

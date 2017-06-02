@@ -1,9 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+from cloudshell.cli.session.telnet_session import TelnetSession
 
 from cloudshell.cli.command_mode_helper import CommandModeHelper
 from cloudshell.devices.cli_handler_impl import CliHandlerImpl
-from cloudshell.networking.juniper.cli.junipr_command_modes import DefaultCommandMode, ConfigCommandMode
+from cloudshell.networking.cisco.aireos.cli.aireos_command_modes import DefaultCommandMode, ConfigCommandMode
+from cloudshell.networking.cisco.aireos.cli.sessions.aireos_ssh_session import AireOSSSHSession
 
 
 class CiscoAireosCliHandler(CliHandlerImpl):
@@ -33,17 +35,11 @@ class CiscoAireosCliHandler(CliHandlerImpl):
         """
         return self.get_cli_service(self.config_mode)
 
-    def on_session_start(self, session, logger):
-        """Send default commands to configure/clear session outputs
-        :return:
-        """
-ssh_session = SessionCreator(AireOSSSHSession)
-ssh_session.proxy = ReturnToPoolProxy
-ssh_session.kwargs = {'username': get_attribute_by_name_wrapper('User'),
-                      'password': get_decrypted_password_by_attribute_name_wrapper('Password'),
-                      'host': get_resource_address}
-CONNECTION_MAP[CONNECTION_TYPE_SSH] = ssh_session
-
-CONNECTION_EXPECTED_MAP = OrderedDict({r'[Uu]ser:': lambda session: session.send_line(get_attribute_by_name('User')),
-                                       r'[Pp]assword:': lambda session: session.send_line(
-                                           get_decrypted_password_by_attribute_name_wrapper('Password')())})
+    def _new_sessions(self):
+        if self.cli_type.lower() == AireOSSSHSession.SESSION_TYPE.lower():
+            new_sessions = self._ssh_session()
+        elif self.cli_type.lower() == TelnetSession.SESSION_TYPE.lower():
+            new_sessions = self._telnet_session()
+        else:
+            new_sessions = [self._ssh_session(), self._telnet_session()]
+        return new_sessions
