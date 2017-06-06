@@ -5,16 +5,23 @@
 from cloudshell.devices.driver_helper import get_logger_with_thread_id, get_api, get_cli
 from cloudshell.devices.standards.networking.configuration_attributes_structure import \
     create_networking_resource_from_context
+from cloudshell.networking.cisco.aireos.runners.aireos_configuration_runner import \
+    CiscoAireosConfigurationRunner as ConfigurationRunner
+from cloudshell.networking.cisco.aireos.runners.aireos_autoload_runner import \
+    CiscoAireosAutoloadRunner as AutoloadRunner
+from cloudshell.networking.cisco.aireos.runners.aireos_firmware_runner import \
+    CiscoAireosFirmwareRunner as FirmwareRunner
+from cloudshell.networking.cisco.aireos.runners.aireos_run_command_runner import \
+    CiscoAireosRunCommandRunner as CommandRunner
+from cloudshell.networking.cisco.aireos.runners.aireos_state_runner import CiscoAireOSStateRunner as StateRunner
 from cloudshell.networking.networking_resource_driver_interface import NetworkingResourceDriverInterface
-from cloudshell.shell.core.context import ResourceCommandContext
 from cloudshell.shell.core.driver_utils import GlobalLock
 from cloudshell.shell.core.resource_driver_interface import ResourceDriverInterface
 
 
 class CiscoAireOS2GResourceDriver(ResourceDriverInterface, NetworkingResourceDriverInterface, GlobalLock):
-    SUPPORTED_OS = [r'[Aa]ireos']
+    SUPPORTED_OS = [r'[Cc]isco\s+[Cc]ontroller']
     SHELL_NAME = "Cisco AireOS WC 2G"
-
     # SHELL_NAME = ""
 
     def __init__(self):
@@ -107,20 +114,7 @@ class CiscoAireOS2GResourceDriver(ResourceDriverInterface, NetworkingResourceDri
         :return:
         """
 
-        logger = get_logger_with_thread_id(context)
-        api = get_api(context)
-
-        resource_config = create_networking_resource_from_context(shell_name=self.SHELL_NAME,
-                                                                  supported_os=self.SUPPORTED_OS,
-                                                                  context=context)
-
-        connectivity_operations = ConnectivityRunner(cli=self._cli, resource_config=resource_config, api=api,
-                                                     logger=logger)
-        logger.info('Start applying connectivity changes, request is: {0}'.format(str(request)))
-        result = connectivity_operations.apply_connectivity_changes(request=request)
-        logger.info('Finished applying connectivity changes, response is: {0}'.format(str(result)))
-        logger.info('Apply Connectivity changes completed')
-        return result
+        pass
 
     def save(self, context, folder_path, configuration_type, vrf_management_name):
         """Save selected file to the provided destination
