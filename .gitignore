@@ -60,3 +60,4 @@ target/
 cloudshell_config.yml
 .idea/
 src/test_aireos.py
+CiscoAireosShell2GDriver.zip
