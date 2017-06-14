@@ -1,15 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import re
-from collections import OrderedDict
-
 from cloudshell.cli.command_template.command_template_executor import CommandTemplateExecutor
-from cloudshell.devices.networking_utils import UrlParser
 from cloudshell.networking.cisco.aireos.command_templates import aireos_save_templates
-from cloudshell.networking.cisco.aireos.command_templates import aireos_restore_templates
-# from cloudshell.networking.cisco.command_templates import configuration
-from cloudshell.cli.session.session_exceptions import ExpectedSessionException, CommandExecutionException
 
 
 class AireosSaveActions(object):
@@ -81,9 +74,10 @@ class AireosSaveActions(object):
                                        error_map=error_map,
                                        check_action_loop_detector=False).execute_command(port=port)
 
-    def save_start(self, action_map=None, error_map=None):
+    def save_start(self, timeout=240, action_map=None, error_map=None):
         return CommandTemplateExecutor(self._cli_service,
                                        aireos_save_templates.SAVE_CONFIGURATION_START,
                                        action_map=action_map,
                                        error_map=error_map,
+                                       timeout=timeout,
                                        check_action_loop_detector=False).execute_command()

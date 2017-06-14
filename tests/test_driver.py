@@ -9,7 +9,7 @@ import unittest
 from cloudshell.shell.core.context import ResourceCommandContext
 from mock import patch
 
-from src.driver import CiscoAireOS2GResourceDriver
+from src.driver import CiscoAireOSResourceDriver
 
 
 @patch('src.driver.get_api')
@@ -18,7 +18,7 @@ from src.driver import CiscoAireOS2GResourceDriver
 @patch('cloudshell.shell.core.context.ResourceCommandContext', autospec=ResourceCommandContext)
 class TestCiscoAireosShellDriver(unittest.TestCase):
     def setUp(self):
-        self.driver = CiscoAireOS2GResourceDriver()
+        self.driver = CiscoAireOSResourceDriver()
 
     @patch('src.driver.get_cli')
     def test_initialize(self, mocked_cli, mocked_context, mocked_resource_details, mocked_logger, mocked_api):

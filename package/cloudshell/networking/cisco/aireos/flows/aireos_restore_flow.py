@@ -37,6 +37,8 @@ class CiscoAireosRestoreFlow(RestoreConfigurationFlow):
             if port:
                 restore_action.restore_server_port(url.get(UrlParser.PORT))
             restore_action.restore_config_name(url.get(UrlParser.FILENAME))
-            restore_action.restore_path(url.get(UrlParser.PATH))
-
+            url_path = url.get(UrlParser.PATH)
+            if url_path and url_path.startswith("/"):
+                url_path = url_path[1:]
+            restore_action.restore_path(url_path)
             restore_action.restore_start()

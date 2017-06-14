@@ -3,7 +3,7 @@
 
 from cloudshell.devices.flows.action_flows import SaveConfigurationFlow
 from cloudshell.devices.networking_utils import UrlParser
-from cloudshell.networking.cisco.aireos.command_actions.aireos_system_actions import AireosSaveActions
+from cloudshell.networking.cisco.aireos.command_actions.aireos_save_actions import AireosSaveActions
 
 
 class CiscoAireosSaveFlow(SaveConfigurationFlow):
@@ -26,14 +26,14 @@ class CiscoAireosSaveFlow(SaveConfigurationFlow):
         with self._cli_handler.get_cli_service(self._cli_handler.enable_mode) as enable_session:
             save_action = AireosSaveActions(enable_session, self._logger)
             url = UrlParser.parse_url(folder_path)
-            path = url.get(UrlParser.PATH)
-            if not path:
-                path = "/"
+            url_path = url.get(UrlParser.PATH)
+            if url_path and len(url_path) > 1 and url_path.startswith("/"):
+                url_path = url_path[1:]
             save_action.save_data_type(self.DATA_TYPE)
             save_action.save_config_name(url.get(UrlParser.FILENAME))
             save_action.save_mode(url.get(UrlParser.SCHEME))
             save_action.save_server_ip(url.get(UrlParser.HOSTNAME))
-            save_action.save_path(path)
+            save_action.save_path(url_path)
             save_action.save_user(url.get(UrlParser.USERNAME))
             save_action.save_password(url.get(UrlParser.PASSWORD))
             port = url.get(UrlParser.PORT)

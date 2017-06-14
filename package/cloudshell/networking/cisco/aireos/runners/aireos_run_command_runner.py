@@ -3,6 +3,7 @@
 
 from cloudshell.devices.runners.run_command_runner import RunCommandRunner
 from cloudshell.networking.cisco.aireos.cli.aireos_cli_handler import CiscoAireosCliHandler
+from cloudshell.networking.cisco.aireos.flows.aireos_run_command_flow import AireosRunCommandFlow
 
 
 class CiscoAireosRunCommandRunner(RunCommandRunner):
@@ -24,3 +25,7 @@ class CiscoAireosRunCommandRunner(RunCommandRunner):
     @property
     def cli_handler(self):
         return CiscoAireosCliHandler(self.cli, self.resource_config, self._logger, self.api)
+
+    @property
+    def run_command_flow(self):
+        return AireosRunCommandFlow(self.cli_handler, self._logger)

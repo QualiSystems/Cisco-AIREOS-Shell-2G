@@ -74,13 +74,30 @@ class AireosRestoreActions(object):
                                        error_map=error_map,
                                        check_action_loop_detector=False).execute_command(port=port)
 
-    def restore_start(self, timeout=600, action_map=None, error_map=None):
+    def restore_start(self, timeout=300, reconnect_timeout=600, action_map=None, error_map=None):
+        output = ""
         try:
-            return CommandTemplateExecutor(self._cli_service,
-                                           aireos_restore_templates.RESTORE_CONFIGURATION_START,
-                                           action_map=action_map,
-                                           error_map=error_map,
-                                           check_action_loop_detector=False).execute_command()
+            output = CommandTemplateExecutor(self._cli_service,
+                                             aireos_restore_templates.RESTORE_CONFIGURATION_START,
+                                             action_map=action_map,
+                                             error_map=error_map,
+                                             timeout=timeout,
+                                             check_action_loop_detector=False).execute_command()
+
+        except Exception as e:
+            self._logger.debug(e, exc_info=True)
+            self._logger.info("Session closed, starting reconnect")
+            self._cli_service.reconnect(reconnect_timeout)
+
+        return output
+
+    def reload(self, timeout=600, action_map=None, error_map=None):
+        try:
+            CommandTemplateExecutor(self._cli_service,
+                                    aireos_restore_templates.RELOAD,
+                                    action_map=action_map,
+                                    error_map=error_map,
+                                    check_action_loop_detector=False).execute_command()
         except Exception as e:
             self._logger.debug(e, exc_info=True)
             self._logger.info("Session closed, starting reconnect")

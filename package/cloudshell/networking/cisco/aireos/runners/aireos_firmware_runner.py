@@ -29,4 +29,4 @@ class CiscoAireosFirmwareRunner(FirmwareRunner):
 
     @property
     def load_firmware_flow(self):
-        return CiscoAireosLoadFirmwareFlow(self.cli_handler, self._logger)
+        return CiscoAireosLoadFirmwareFlow(self.cli_handler, self._logger, DEFAULT_ACTION_MAP, DEFAULT_ERROR_MAP)

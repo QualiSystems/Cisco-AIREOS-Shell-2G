@@ -19,13 +19,13 @@ from cloudshell.shell.core.driver_utils import GlobalLock
 from cloudshell.shell.core.resource_driver_interface import ResourceDriverInterface
 
 
-class CiscoAireOS2GResourceDriver(ResourceDriverInterface, NetworkingResourceDriverInterface, GlobalLock):
+class CiscoAireOSResourceDriver(ResourceDriverInterface, NetworkingResourceDriverInterface, GlobalLock):
     SUPPORTED_OS = [r'[Cc]isco\s+[Cc]ontroller']
     SHELL_NAME = "Cisco AireOS WC 2G"
     # SHELL_NAME = ""
 
     def __init__(self):
-        super(CiscoAireOS2GResourceDriver, self).__init__()
+        super(CiscoAireOSResourceDriver, self).__init__()
         self._cli = None
 
     def initialize(self, context):

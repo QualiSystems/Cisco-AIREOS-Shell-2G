@@ -35,6 +35,9 @@ class CiscoAireosCliHandler(CliHandlerImpl):
         """
         return self.get_cli_service(self.config_mode)
 
+    def _ssh_session(self):
+        return AireOSSSHSession(self.resource_address, self.username, self.password, self.port, self.on_session_start)
+
     def _new_sessions(self):
         if self.cli_type.lower() == AireOSSSHSession.SESSION_TYPE.lower():
             new_sessions = self._ssh_session()
@@ -43,3 +46,10 @@ class CiscoAireosCliHandler(CliHandlerImpl):
         else:
             new_sessions = [self._ssh_session(), self._telnet_session()]
         return new_sessions
+
+    def on_session_start(self, session, logger):
+        """Send default commands to configure/clear session outputs
+        :return:
+        """
+
+        session.hardware_expect("config paging disable", DefaultCommandMode.PROMPT, logger)
