@@ -7,6 +7,8 @@ from cloudshell.devices.standards.networking.configuration_attributes_structure 
     create_networking_resource_from_context
 from cloudshell.networking.cisco.aireos.runners.aireos_configuration_runner import \
     CiscoAireosConfigurationRunner as ConfigurationRunner
+from cloudshell.networking.cisco.aireos.runners.aireos_connectivity_runner import \
+    CiscoAireosConnectivityRunner as ConnectivityRunner
 from cloudshell.networking.cisco.aireos.runners.aireos_autoload_runner import \
     CiscoAireosAutoloadRunner as AutoloadRunner
 from cloudshell.networking.cisco.aireos.runners.aireos_firmware_runner import \
@@ -22,7 +24,6 @@ from cloudshell.shell.core.resource_driver_interface import ResourceDriverInterf
 class CiscoAireOSResourceDriver(ResourceDriverInterface, NetworkingResourceDriverInterface, GlobalLock):
     SUPPORTED_OS = [r'[Cc]isco\s+[Cc]ontroller']
     SHELL_NAME = "Cisco AireOS WC 2G"
-    # SHELL_NAME = ""
 
     def __init__(self):
         super(CiscoAireOSResourceDriver, self).__init__()
@@ -114,7 +115,20 @@ class CiscoAireOSResourceDriver(ResourceDriverInterface, NetworkingResourceDrive
         :return:
         """
 
-        pass
+        logger = get_logger_with_thread_id(context)
+        api = get_api(context)
+
+        resource_config = create_networking_resource_from_context(shell_name=self.SHELL_NAME,
+                                                                  supported_os=self.SUPPORTED_OS,
+                                                                  context=context)
+
+        connectivity_operations = ConnectivityRunner(cli=self._cli, resource_config=resource_config, api=api,
+                                                     logger=logger)
+        logger.info('Start applying connectivity changes, request is: {0}'.format(str(request)))
+        result = connectivity_operations.apply_connectivity_changes(request=request)
+        logger.info('Finished applying connectivity changes, response is: {0}'.format(str(result)))
+        logger.info('Apply Connectivity changes completed')
+        return result
 
     def save(self, context, folder_path, configuration_type, vrf_management_name):
         """Save selected file to the provided destination
