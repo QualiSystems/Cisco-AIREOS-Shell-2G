@@ -5,20 +5,28 @@
 from cloudshell.devices.driver_helper import get_logger_with_thread_id, get_api, get_cli
 from cloudshell.devices.standards.networking.configuration_attributes_structure import \
     create_networking_resource_from_context
+from cloudshell.networking.cisco.aireos.runners.aireos_configuration_runner import \
+    CiscoAireosConfigurationRunner as ConfigurationRunner
+from cloudshell.networking.cisco.aireos.runners.aireos_connectivity_runner import \
+    CiscoAireosConnectivityRunner as ConnectivityRunner
+from cloudshell.networking.cisco.aireos.runners.aireos_autoload_runner import \
+    CiscoAireosAutoloadRunner as AutoloadRunner
+from cloudshell.networking.cisco.aireos.runners.aireos_firmware_runner import \
+    CiscoAireosFirmwareRunner as FirmwareRunner
+from cloudshell.networking.cisco.aireos.runners.aireos_run_command_runner import \
+    CiscoAireosRunCommandRunner as CommandRunner
+from cloudshell.networking.cisco.aireos.runners.aireos_state_runner import CiscoAireOSStateRunner as StateRunner
 from cloudshell.networking.networking_resource_driver_interface import NetworkingResourceDriverInterface
-from cloudshell.shell.core.context import ResourceCommandContext
 from cloudshell.shell.core.driver_utils import GlobalLock
 from cloudshell.shell.core.resource_driver_interface import ResourceDriverInterface
 
 
-class CiscoAireOS2GResourceDriver(ResourceDriverInterface, NetworkingResourceDriverInterface, GlobalLock):
-    SUPPORTED_OS = [r'[Aa]ireos']
+class CiscoAireOSResourceDriver(ResourceDriverInterface, NetworkingResourceDriverInterface, GlobalLock):
+    SUPPORTED_OS = [r'[Cc]isco\s+[Cc]ontroller']
     SHELL_NAME = "Cisco AireOS WC 2G"
 
-    # SHELL_NAME = ""
-
     def __init__(self):
-        super(CiscoAireOS2GResourceDriver, self).__init__()
+        super(CiscoAireOSResourceDriver, self).__init__()
         self._cli = None
 
     def initialize(self, context):

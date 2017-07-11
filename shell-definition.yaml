@@ -124,5 +124,5 @@ node_types:
         file: shell-icon.png
         type: tosca.artifacts.File
       driver:
-        file: CiscoAireOSWirelessController2GDriver.zip
+        file: CiscoAireosShell2GDriver.zip
         type: tosca.artifacts.File
