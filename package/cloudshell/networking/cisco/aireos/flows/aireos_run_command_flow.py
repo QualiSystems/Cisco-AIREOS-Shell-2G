@@ -17,7 +17,7 @@ class AireosRunCommandFlow(BaseCliFlow):
         """
 
         responses = []
-        if isinstance(custom_command, str):
+        if isinstance(custom_command, basestring):
             commands = [custom_command]
         elif isinstance(custom_command, tuple):
             commands = list(custom_command)

@@ -10,7 +10,7 @@
                 <Parameters>
                     <Parameter Name="custom_command" Type="String" Mandatory="True" DisplayName="Custom Command"
                                DefaultValue=""
-                               Description="The command to run. Note that commands that require a response are not supported."/>
+                               Description="The command(s) to run. Supports several commands separated by ';' symbol. Note that commands that require a response are not supported."/>
                 </Parameters>
             </Command>
 
@@ -47,7 +47,7 @@
                  Description="Executes any custom command entered in the input on the device.">
             <Parameters>
                 <Parameter Name="custom_command" Type="String" Mandatory="True" DisplayName="Command" DefaultValue=""
-                           Description="The command to run. Note that commands that require a response are not supported."/>
+                           Description="The command(s) to run. Supports several commands separated by ';' symbol. Note that commands that require a response are not supported."/>
             </Parameters>
         </Command>
 
