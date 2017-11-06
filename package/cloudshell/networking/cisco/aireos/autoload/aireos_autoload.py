@@ -219,7 +219,12 @@ class AireOSAutoload(object):
         return result.strip(' \t\n\r')
 
     def _convert_port_description(self, description):
-        return description.replace('/', '-').replace(' ', '').replace(':', '-')
+        match_port = re.search("[Pp]ort[-:]\s*\d+", description, re.IGNORECASE)
+        if match_port:
+            port = match_port.group()
+        else:
+            port = description.replace('/', '-')
+        return port.replace(':', '-').replace(' ', '')
 
     def _is_valid_device_os(self, supported_os):
         """Validate device OS using snmp
