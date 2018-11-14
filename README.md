@@ -1,4 +1,4 @@
-![](https://github.com/stsuberi/SaraTest/blob/master/cloudshell_logo.png)
+![](https://github.com/QualiSystems/cloudshell-shells-documentaion-templates/blob/master/cloudshell_logo.png)
 
 # Cisco-AIREOS-Shell-2G
 [![Build status](https://travis-ci.org/QualiSystems/Cisco-AIREOS-Shell-2G.svg?branch=dev)](https://travis-ci.org/QualiSystems/Cisco-AIREOS-Shell-2G)
