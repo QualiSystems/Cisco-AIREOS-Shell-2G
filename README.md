@@ -8,8 +8,6 @@
 [![Stories in Ready](https://badge.waffle.io/QualiSystems/Cisco-AIREOS-Shell-2G.svg?label=ready&title=Ready)](http://waffle.io/QualiSystems/Cisco-AIREOS-Shell-2G)
 
 
-# **Cisco AireOS Wireless Controller 2G Shell**  
-
 Release date: November  2017
 
 Shell version: 1.0.0
